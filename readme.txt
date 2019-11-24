@@ -12,9 +12,7 @@ Aautomatically alert your users when they've lost internet connectivity
 
 == Description ==
 
-Aautomatically alert your users when they've lost internet connectivity.
-
-The plugin detects internet connection with Offline.js (https://github.com/HubSpot/offline).
+Automatically alert your users when they've lost internet connectivity. The plugin enqueues [Offline.js](https://github.com/HubSpot/offline) by itself.
 
 Install and activate the plugin. That's it.
 
@@ -27,10 +25,10 @@ Not Yet. Coming soon.
 
 == Screenshots ==
 
-1. In Action
+1. Plugin In Action
 
 
 == Changelog == 
 
-= 1.0.0 - xx/xx/2019 =
+= 1.0.0 - 10/24/2019 =
 * Initial Release

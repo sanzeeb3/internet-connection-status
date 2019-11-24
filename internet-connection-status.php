@@ -1,12 +1,14 @@
 <?php
 /**
  * Plugin Name: Internet Connection Status
- * Description: Aautomatically alert your users when they've lost internet connectivity
+ * Description: Automatically alert your users when they've lost internet connectivity
  * Version: 1.0.0
  * Author: Sanjeev Aryal
  * Author URI: http://www.sanjeebaryal.com.np
  * Text Domain: internet-connection
  *
+ * @see  	   https://github.com/HubSpot/offline
+ *  
  * @package    Internet Connection Status
  * @author     Sanjeev Aryal
  * @since      1.0.0
