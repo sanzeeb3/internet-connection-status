@@ -30,11 +30,33 @@ function ics_enqueue_assets() {
 	$options = get_option( 'internet_connection_status', array() );
 	$theme 	 = isset( $options['theme'] ) ? $options['theme'] : 'default';
 	$language 	 = isset( $options['language'] ) ? $options['language'] : 'english';
+	$check_on_load = isset( $options['check_on_load'] ) ? $options['check_on_load'] : '';
+	$intercept_requests = isset( $options['intercept_requests'] ) ? $options['intercept_requests'] : '1';
+	$initial_delay = isset( $options['initial_delay'] ) ? $options['initial_delay'] : '3';
+	$delay = isset( $options['delay'] ) ? $options['delay'] : '10';
+	$requests = isset( $options['requests'] ) ? $options['requests'] : '1';
+	$game = isset( $options['game'] ) ? $options['game'] : '';
 
 	wp_enqueue_script( 'offline-js', plugins_url( 'assets/js/offline.min.js', __FILE__ ), array(), ICS_VERSION, true );
-	wp_enqueue_script( 'internet-connection-js', plugins_url( 'assets/js/internet-connection.js', __FILE__ ), array(), ICS_VERSION, true );
+	wp_enqueue_script( 'internet-connection-js', plugins_url( 'assets/js/internet-connection.js', __FILE__ ), array(), 
+		ICS_VERSION, true );
 	wp_enqueue_style( 'offline-language', plugins_url( 'assets/css/offline-language-'.$language.'.min.css', __FILE__ ), array(), ICS_VERSION, $media = 'all' );
 	wp_enqueue_style( 'offline-theme', plugins_url( 'assets/css/offline-theme-'.$theme.'.css', __FILE__ ), array(), ICS_VERSION, $media = 'all' );
+
+	if ( ! empty( $game ) ) {
+		wp_enqueue_script( 'offline-js-game', plugins_url( 'assets/js/snake.js', __FILE__ ), array(), ICS_VERSION, true );
+	}
+
+	$data = array(
+		'check_on_load' => $check_on_load,
+		'intercept_requests' => $intercept_requests,
+		'initial_delay' => $initial_delay,
+		'delay' => $delay,
+		'requests' => $requests,
+		'game' => $game,
+	);
+
+	wp_localize_script( 'internet-connection-js', 'ics_params', $data );
 }
 
 add_action( 'wp_enqueue_scripts', 'ics_enqueue_assets' );
@@ -66,6 +88,13 @@ function ics_settings_page() {
 		</h2>';
 	echo $template;
 
+	$check_on_load = isset( $options['check_on_load'] ) ? $options['check_on_load'] : '';
+	$intercept_requests = isset( $options['intercept_requests'] ) ? $options['intercept_requests'] : '1';
+	$initial_delay = isset( $options['initial_delay'] ) ? $options['initial_delay'] : '3';
+	$delay = isset( $options['delay'] ) ? $options['delay'] : '10';
+	$requests = isset( $options['requests'] ) ? $options['requests'] : '1';
+	$game = isset( $options['game'] ) ? $options['game'] : '';
+
 	// Advanced tab.
 	if( isset( $_GET['section'] ) && 'advanced' === $_GET['section'] ) {
 		check_admin_referer( 'internet-connection-status-advanced' );
@@ -74,9 +103,44 @@ function ics_settings_page() {
 
 				    <table class="form-table">
 				        <tr valign="top">
-				        	<th scope="row"><?php echo esc_html__( 'Disable Geolocation', 'entries-for-wpforms' );?></th>
-				        		<td><input type="checkbox" name="internet_connection_status_disable_geolocation" <?php checked( esc_attr( get_option('entries_for_wpforms_disable_geolocation') ), '1' ); ?> />
-				        			<i class="desc"><?php echo esc_html__( 'Check this if you would like to disable storing geolocation data of the users.', 'entries-for-wpforms' );?></i>
+				        	<th scope="row"><?php echo esc_html__( 'Check On load', 'internet-connection-status' );?></th>
+				        		<td><input type="checkbox" value="1" name="check_on_load" <?php checked( '1', $check_on_load );?> />
+				        			<i class="desc"><?php echo esc_html__( 'Check the connection status immediately on page load.', 'internet-connection-status' );?></i>
+				        		</td>
+				        </tr>
+
+				        <tr valign="top">
+				        	<th scope="row"><?php echo esc_html__( 'Intercept Requests', 'internet-connection-status' );?></th>
+				        		<td><input type="checkbox" value="1" name="intercept_requests" <?php checked( '1', $intercept_requests );?> />
+				        			<i class="desc"><?php echo esc_html__( 'Monitor AJAX requests to help decide if we have a connection.', 'internet-connection-status' );?></i>
+				        		</td>
+				        </tr>
+
+				        <tr valign="top">
+				        	<th scope="row"><?php echo esc_html__( 'Reconnect', 'internet-connection-status' );?></th>
+				        		<td><input type="number" name="initial_delay" value="<?php echo absint( $initial_delay );?>" /><br/>
+				        			<i class="desc"><?php echo esc_html__( 'Seconds should we wait before rechecking.', 'internet-connection-status' );?></i>
+				        		</td>
+				        </tr>
+
+				        <tr valign="top">
+				        	<th scope="row"><?php echo esc_html__( 'Delay', 'internet-connection-status' );?></th>
+				        		<td><input type="number" name="delay" value="<?php echo absint( $delay );?>" /><br/>
+				        			<i class="desc"><?php echo esc_html__( 'Seconds should we wait between retries.', 'internet-connection-status' );?></i>
+				        		</td>
+				        </tr>
+
+				        <tr valign="top">
+				        	<th scope="row"><?php echo esc_html__( 'Requests', 'internet-connection-status' );?></th>
+				        		<td><input type="checkbox" value="1" name="requests" <?php checked( '1', $requests );?> />
+				        			<i class="desc"><?php echo esc_html__( 'Store and attempt to remake requests which fail while the connection is down.', 'internet-connection-status' );?></i>
+				        		</td>
+				        </tr>
+
+				        <tr valign="top">
+				        	<th scope="row"><?php echo esc_html__( 'Game', 'internet-connection-status' );?></th>
+				        		<td><input type="checkbox" value="1" name="game" <?php checked( '1', $game );?> />
+				        			<i class="desc"><?php echo esc_html__( 'Snake game while the connection is down to keep the user entertained.', 'internet-connection-status' );?></i>
 				        		</td>
 				        </tr>
 
@@ -138,12 +202,18 @@ function ics_save_settings() {
 			   print 'Nonce Failed!';
 			   exit;
 		} else {
-			$theme = isset( $_POST['theme'] ) ? sanitize_text_field( $_POST['theme'] ) : '';
-			$language = isset( $_POST['language'] ) ? sanitize_text_field( $_POST['language'] ) : '';
+			$theme = isset( $_POST['theme'] ) ? sanitize_text_field( $_POST['theme'] ) : 'default';
+			$language = isset( $_POST['language'] ) ? sanitize_text_field( $_POST['language'] ) : 'english';
 
 			update_option( 'internet_connection_status', array(
 				'theme'  => $theme,
-				'language' => $language
+				'language' => $language,
+				'check_on_load' => isset( $_POST['check_on_load'] ) ? sanitize_text_field( $_POST['check_on_load'] ) : '0',
+				'intercept_requests' => isset( $_POST['intercept_requests'] ) ? sanitize_text_field( $_POST['intercept_requests'] ) : '0',
+				'initial_delay' => isset( $_POST['initial_delay'] ) ? sanitize_text_field( $_POST['initial_delay'] ) : '0',
+				'delay' => isset( $_POST['delay'] ) ? sanitize_text_field( $_POST['delay'] ) : '0',
+				'requests' => isset( $_POST['requests'] ) ? sanitize_text_field( $_POST['requests'] ) : '0',
+				'game' => isset( $_POST['game'] ) ? sanitize_text_field( $_POST['game'] ) : '0',
 			) );
 
 		}

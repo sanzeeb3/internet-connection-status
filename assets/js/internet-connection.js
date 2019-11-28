@@ -1,18 +1,27 @@
+/*
+ * Global ics_params.
+ */
 Offline.options = {
   // to check the connection status immediatly on page load.
-  checkOnLoad: false,
+  checkOnLoad: '1' === ics_params.check_on_load ? true : false,
 
   // to monitor AJAX requests to check connection.
-  interceptRequests: true,
+  interceptRequests: '1' === ics_params.intercept_requests ? true : false,
 
   // to automatically retest periodically when the connection is down (set to false to disable).
   reconnect: {
     // delay time in seconds to wait before rechecking.
-    initialDelay: 3,
+    initialDelay: parseInt( ics_params.initial_delay ),
 
     // wait time in seconds between retries.
-    delay: 10
+    delay: parseInt( ics_params.delay )
   },
 
   // to store and attempt to remake requests which failed while the connection was down.
-  requests: true
+  requests: '1' === ics_params.requests ? true : false,
+
+ // Should we show a snake game while the connection is down to keep the user entertained?
+  game: '1' === ics_params.game ? true : false,
+}
+
+console.log( Offline.options );
