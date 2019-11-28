@@ -1,129 +1,98 @@
-/**
- * @see  https://gist.github.com/mhuggins/28c387ebb665c4b73db1d3af61d6dcec
- *
- */
-var KEY_LEFT = 37;
-var KEY_UP = 38;
-var KEY_RIGHT = 39;
-var KEY_DOWN = 40;
+(function() {
+  var canvas, dot, fill, hide, keyHandler, move, randDot, render, score, show, snake, speed, stop;
 
-var vendors = ["webkit", "moz", "o", "ms"];
+  canvas = dot = score = speed = stop = snake = randDot = fill = null;
 
-for (var x = 0; x < vendors.length && !window.requestAnimationFrame; x++) {
-    window.requestAnimationFrame = window[vendors[x] + "RequestAnimationFrame"];
-    window.cancelAnimationFrame = window[vendors[x] + "CancelAnimationFrame"] ||
-                                  window[vendors[x] + "CancelRequestAnimationFrame"];
-}
-
-function Game(context) {
-  this.context = context;
-  this.boardSize = 20;
-  this.tileSize = 20;
-  this.fps = 20;
-  this.segments = [];
-  this.length = 5;
-  this.position = { x: this.boardSize / 2, y: this.boardSize / 2 };
-  this.foodPosition = this._getRandomPosition();
-  this.direction = { x: 1, y: 0 };
-}
-
-Game.prototype.start = function(win) {
-  document.addEventListener("keydown", function(event) {
-    switch (event.keyCode) {
-      case KEY_LEFT:
-        if (this.direction.x === 0) {
-          this.direction = { x: -1, y: 0 };
-        }
-        break;
-      case KEY_UP:
-        if (this.direction.y === 0) {
-          this.direction = { x: 0, y: -1 };
-        }
-        break;
-      case KEY_RIGHT:
-        if (this.direction.x === 0) {
-          this.direction = { x: 1, y: 0 };
-        }
-        break;
-      case KEY_DOWN:
-        if (this.direction.y === 0) {
-          this.direction = { x: 0, y: 1 };
-        }
-        break;
-    }
-  }.bind(this));
-
-  this.lastTime = Date.now();
-  this._loop(win);
-};
-
-Game.prototype._loop = function(win) {
-  var fpsInterval = 1000 / this.fps;
-  var currentTime = Date.now();
-  var elapsedTime = currentTime - this.lastTime;
-
-  win.requestAnimationFrame(function() {
-    if (elapsedTime > fpsInterval) {
-      this._move();
-      this._draw();
-      this.lastTime = currentTime - (elapsedTime % fpsInterval);
-    }
-
-    this._loop(win);
-  }.bind(this));
-};
-
-Game.prototype._move = function() {
-  this.position = { x: this.position.x + this.direction.x, y: this.position.y + this.direction.y };
-
-  ["x", "y"].forEach(function(direction) {
-    while (this.position[direction] < 0) {
-      this.position[direction] += this.boardSize;
-    }
-    while (this.position[direction] >= this.boardSize) {
-      this.position[direction] -= this.boardSize;
-    }
-  }.bind(this));
-
-  this.segments.push(this.position);
-
-  while (this.segments.length > this.length) {
-    this.segments.shift();
-  }
-
-  if (this.position.x === this.foodPosition.x && this.position.y === this.foodPosition.y) {
-    this.length++;
-    this.foodPosition = this._getRandomPosition();
-  }
-};
-
-Game.prototype._draw = function() {
-  this.context.clearRect(0, 0, this.boardSize * this.tileSize, this.boardSize * this.tileSize);
-
-  this.context.fillStyle = "rgb(0, 0, 0)";
-  this.context.fillRect(0, 0, this.boardSize * this.tileSize, this.boardSize * this.tileSize);
-
-  this.context.fillStyle = "rgb(192, 192, 192)";
-  this.segments.forEach(function(segment) {
-    this.context.fillRect(segment.x * this.tileSize, segment.y * this.tileSize, this.tileSize, this.tileSize);
-  }.bind(this));
-
-  this.context.fillStyle = "rgb(0, 255, 0)";
-  this.context.fillRect(this.foodPosition.x * this.tileSize, this.foodPosition.y * this.tileSize, this.tileSize, this.tileSize);
-};
-
-Game.prototype._getRandomPosition = function() {
-  return {
-    x: Math.floor(Math.random() * this.boardSize),
-    y: Math.floor(Math.random() * this.boardSize)
+  render = function() {
+    canvas = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    canvas.setAttribute('style', 'width: 100%; height: 100%; margin: -8px; position: absolute; top: 0; left: 0; z-index: 1000');
+    canvas.setAttribute('viewBox', '0 0 1000 1000');
+    document.body.appendChild(canvas);
+    dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    dot.setAttribute('r', 20);
+    (randDot = function() {
+      dot.setAttribute('cx', (Math.random() * 960) | 0 + 20);
+      return dot.setAttribute('cy', (Math.random() * 960) | 0 + 20);
+    })();
+    canvas.appendChild(dot);
+    snake = {
+      direction: 0,
+      nodes: []
+    };
+    score = 0;
+    speed = 10;
+    stop = false;
+    return move();
   };
-};
 
-var canvas = document.getElementById("game");
-var context = canvas.getContext("2d");
+  move = function() {
+    var dotX, dotY, lastNode, lastX, lastY, nX, nY, node, old;
+    if (stop) {
+      return;
+    }
+    lastNode = snake.nodes[snake.nodes.length - 1];
+    if (lastNode) {
+      lastX = +lastNode.getAttribute('cx');
+      lastY = +lastNode.getAttribute('cy');
+    } else {
+      lastX = 500;
+      lastY = 500;
+    }
+    if (snake.nodes.length > score) {
+      old = snake.nodes.shift();
+      canvas.removeChild(old);
+    }
+    nX = lastX + Math.cos(snake.direction) * speed;
+    nY = lastY + Math.sin(snake.direction) * speed;
+    node = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    node.setAttribute('r', 20);
+    node.setAttribute('cx', nX);
+    node.setAttribute('cy', nY);
+    if (fill) {
+      node.style.fill = fill;
+    }
+    dotX = +dot.getAttribute('cx');
+    dotY = +dot.getAttribute('cy');
+    if ((dotX - 20 < nX && nX < dotX + 20) && (dotY - 20 < nY && nY < dotY + 20)) {
+      score++;
+      speed++;
+      randDot();
+    }
+    canvas.appendChild(node);
+    snake.nodes.push(node);
+    return requestAnimationFrame(move);
+  };
 
-if (context !== null) {
-  new Game(context).start(window);
-} else {
-  alert("Unable to obtain 2D canvas context.");
-}
+  keyHandler = function(e) {
+    var ref;
+    if ((37 <= (ref = e.keyCode) && ref <= 40)) {
+      snake.direction = Math.PI / 2 * ((e.keyCode - 35) % 4);
+      return false;
+    }
+  };
+
+  show = function() {
+    document.addEventListener('keydown', keyHandler);
+    return render();
+  };
+
+  hide = function() {
+    document.removeEventListener('keydown', keyHandler);
+    stop = true;
+    return document.removeChild(canvas);
+  };
+
+  setTimeout(function() {
+    if (Offline.getOption('game') && (document.addEventListener != null)) {
+      Offline.on('down', show);
+      Offline.on('up', hide);
+      return Offline.on('reconnect:failure', function() {
+        fill = '#ec8787';
+        return setTimeout(function() {
+          return fill = 'black';
+        }, 2000);
+      });
+    }
+  }, 0);
+
+}).call(this);
