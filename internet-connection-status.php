@@ -51,6 +51,7 @@ function ics_register_setting_menu() {
 function ics_settings_page() {
 	$options = get_option( 'internet_connection_status', array() );
 	$theme 	 = isset( $options['theme'] ) ? $options['theme'] : 'default';
+	$language 	 = isset( $options['language'] ) ? $options['language'] : 'english';
 
 	?>
 		<h2 class="wp-heading-inline"><?php esc_html_e( 'Internet Connection Status Settings', 'internet-connection-status' ); ?></h2>
@@ -58,22 +59,24 @@ function ics_settings_page() {
 			<table class="form-table">
 					<tr valign="top">
 						   <th scope="row"><?php echo esc_html__( 'Theme', 'internet-connection-status' ); ?></th>
-							<td><input type="radio" name="theme" value="default" class="internet-connection-status-theme" <?php checked( $theme, 'default' );?> />
-								<?php echo esc_html__( 'Default', 'internet-connection-status' ); ?>
 
-							</td>
-							<td><input type="radio" name="theme" value="dark" class="internet-connection-status-theme" <?php checked( $theme, 'dark' );?> />
-								<?php echo esc_html__( 'Dark', 'internet-connection-status' ); ?>
-
-							</td>
-							<td><input type="radio" name="theme" value="chrome" class="internet-connection-status-theme" <?php checked( $theme, 'chrome' );?> />
-								<?php echo esc_html__( 'Chrome', 'internet-connection-status' ); ?>
-
-							</td>
-							<td><input type="radio" name="theme" value="indicator-chrome" class="internet-connection-status-theme" <?php checked( $theme, 'indicator-chrome' );?> />
-								<?php echo esc_html__( 'Indicator Chrome', 'internet-connection-status' ); ?>
-
-							</td>
+							<td><select name="theme">
+						   		<option value="default" <?php selected( $theme, 'default' );?> ><?php echo esc_html__( 'Default', 'internet-connection-status' );?> </option>
+						   		<option value="dark" <?php selected( $theme, 'dark' );?> ><?php echo esc_html__( 'Dark', 'internet-connection-status' );?> </option>
+						   		<option value="chrome" <?php selected( $theme, 'chrome' );?> ><?php echo esc_html__( 'Chrome', 'internet-connection-status' );?> </option>
+						   		<option value="indicator-chrome" <?php selected( $theme, 'indicator-chrome' );?> ><?php echo esc_html__( 'Indicator Chrome', 'internet-connection-status' );?> </option>
+						   </select>
+						</td>
+					</tr>
+					<tr valign="top">
+						   <th scope="row"><?php echo esc_html__( 'Language', 'internet-connection-status' ); ?></th>
+						   <td><select name="language">
+						   		<option value="english" <?php selected( $language, 'english' );?> ><?php echo esc_html__( 'English', 'internet-connection-status' );?> </option>
+						   		<option value="spanish" <?php selected( $language, 'spanish' );?> ><?php echo esc_html__( 'Spanish', 'internet-connection-status' );?> </option>
+						   		<option value="french" <?php selected( $language, 'french' );?> ><?php echo esc_html__( 'French', 'internet-connection-status' );?> </option>
+						   		<option value="italian" <?php selected( $language, 'italian' );?> ><?php echo esc_html__( 'Italian', 'internet-connection-status' );?> </option>
+						   </select>
+						</td>
 					</tr>
 					<?php do_action( 'internet_connection_status' ); ?>
 					<?php wp_nonce_field( 'internet_connection_status', 'internet_connection_status_nonce' ); ?>
@@ -98,9 +101,11 @@ function ics_save_settings() {
 			   exit;
 		} else {
 			$theme = isset( $_POST['theme'] ) ? sanitize_text_field( $_POST['theme'] ) : '';
+			$language = isset( $_POST['language'] ) ? sanitize_text_field( $_POST['language'] ) : '';
 
 			update_option( 'internet_connection_status', array(
-				'theme'  => $theme
+				'theme'  => $theme,
+				'language' => $language
 			) );
 
 		}
