@@ -202,20 +202,27 @@ function ics_save_settings() {
 			   print 'Nonce Failed!';
 			   exit;
 		} else {
-			$theme = isset( $_POST['theme'] ) ? sanitize_text_field( $_POST['theme'] ) : 'default';
-			$language = isset( $_POST['language'] ) ? sanitize_text_field( $_POST['language'] ) : 'english';
 
-			update_option( 'internet_connection_status', array(
-				'theme'  => $theme,
-				'language' => $language,
-				'check_on_load' => isset( $_POST['check_on_load'] ) ? sanitize_text_field( $_POST['check_on_load'] ) : '0',
-				'intercept_requests' => isset( $_POST['intercept_requests'] ) ? sanitize_text_field( $_POST['intercept_requests'] ) : '0',
-				'initial_delay' => isset( $_POST['initial_delay'] ) ? sanitize_text_field( $_POST['initial_delay'] ) : '0',
-				'delay' => isset( $_POST['delay'] ) ? sanitize_text_field( $_POST['delay'] ) : '0',
-				'requests' => isset( $_POST['requests'] ) ? sanitize_text_field( $_POST['requests'] ) : '0',
-				'game' => isset( $_POST['game'] ) ? sanitize_text_field( $_POST['game'] ) : '0',
+			if ( isset( $_GET['section'] ) && 'advanced' === sanitize_text_field( $_GET['section'] ) ) {
+				update_option( 'internet_connection_status', array(
+					'check_on_load' => isset( $_POST['check_on_load'] ) ? sanitize_text_field( $_POST['check_on_load'] ) : '0',
+					'intercept_requests' => isset( $_POST['intercept_requests'] ) ? sanitize_text_field( $_POST['intercept_requests'] ) : '0',
+					'initial_delay' => isset( $_POST['initial_delay'] ) ? sanitize_text_field( $_POST['initial_delay'] ) : '0',
+					'delay' => isset( $_POST['delay'] ) ? sanitize_text_field( $_POST['delay'] ) : '0',
+					'requests' => isset( $_POST['requests'] ) ? sanitize_text_field( $_POST['requests'] ) : '0',
+					'game' => isset( $_POST['game'] ) ? sanitize_text_field( $_POST['game'] ) : '0',
 			) );
 
+			} else {
+
+				$theme = isset( $_POST['theme'] ) ? sanitize_text_field( $_POST['theme'] ) : 'default';
+				$language = isset( $_POST['language'] ) ? sanitize_text_field( $_POST['language'] ) : 'english';
+
+				update_option( 'internet_connection_status', array(
+					'theme'  => $theme,
+					'language' => $language,
+				) );
+			}
 		}
 	}
 }

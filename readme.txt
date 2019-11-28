@@ -16,7 +16,7 @@ Automatically alert your users when they've lost internet connectivity. The plug
 
 Install and activate the plugin. That's it. Or if you'd like to customize few things, go to Settings > Internet Connection Status.
 
-Keep the users entertained and engaged with a snake game while the connection is down.
+Keep the users entertained and engaged with a snake game while the connection is down. Improve your visitors abandonment problem.
 
 Improve the experience of your site when your users lose connection.
 
