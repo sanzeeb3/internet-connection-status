@@ -23,13 +23,18 @@ const ICS_VERSION = '1.1.0';
  * Enqueue necessary scripts.
  *
  * @since  1.0.0
+ *
+ * @since  1.1.0 Dynamically enqueue theme and language.
  */
 function ics_enqueue_assets() {
+	$options = get_option( 'internet_connection_status', array() );
+	$theme 	 = isset( $options['theme'] ) ? $options['theme'] : 'default';
+	$language 	 = isset( $options['language'] ) ? $options['language'] : 'english';
 
 	wp_enqueue_script( 'offline-js', plugins_url( 'assets/js/offline.min.js', __FILE__ ), array(), ICS_VERSION, true );
 	wp_enqueue_script( 'internet-connection-js', plugins_url( 'assets/js/internet-connection.js', __FILE__ ), array(), ICS_VERSION, true );
-	wp_enqueue_style( 'offline-language', plugins_url( 'assets/css/offline-language-english.min.css', __FILE__ ), array(), ICS_VERSION, $media = 'all' );
-	wp_enqueue_style( 'offline-theme', plugins_url( 'assets/css/offline-theme-default.css', __FILE__ ), array(), ICS_VERSION, $media = 'all' );
+	wp_enqueue_style( 'offline-language', plugins_url( 'assets/css/offline-language-'.$language.'.min.css', __FILE__ ), array(), ICS_VERSION, $media = 'all' );
+	wp_enqueue_style( 'offline-theme', plugins_url( 'assets/css/offline-theme-'.$theme.'.css', __FILE__ ), array(), ICS_VERSION, $media = 'all' );
 }
 
 add_action( 'wp_enqueue_scripts', 'ics_enqueue_assets' );
@@ -53,8 +58,41 @@ function ics_settings_page() {
 	$theme 	 = isset( $options['theme'] ) ? $options['theme'] : 'default';
 	$language 	 = isset( $options['language'] ) ? $options['language'] : 'english';
 
+	$advanced_active    = isset( $_GET['section'] ) && 'advanced' === $_GET['section'] ? 'nav-tab-active' : '';
+	$general_active     = empty( $advanced_active ) ? 'nav-tab-active' : '';
+	$template = '<h2 class="nav-tab-wrapper">
+		<a href="'. esc_url( admin_url( 'admin.php?page=internet-connection-status' ) ) .'" class="nav-tab '. $general_active .'">General</a>
+		<a href="'. esc_url( wp_nonce_url( admin_url( 'admin.php?page=internet-connection-status&section=advanced' ), 'internet-connection-status-advanced' ) ) .'" class="nav-tab '. $advanced_active .'">'. esc_html__( 'Advanced', 'internet-connection-status' ).'</a>
+		</h2>';
+	echo $template;
+
+	// Advanced tab.
+	if( isset( $_GET['section'] ) && 'advanced' === $_GET['section'] ) {
+		check_admin_referer( 'internet-connection-status-advanced' );
+			?>
+				<form method="post">
+
+				    <table class="form-table">
+				        <tr valign="top">
+				        	<th scope="row"><?php echo esc_html__( 'Disable Geolocation', 'entries-for-wpforms' );?></th>
+				        		<td><input type="checkbox" name="internet_connection_status_disable_geolocation" <?php checked( esc_attr( get_option('entries_for_wpforms_disable_geolocation') ), '1' ); ?> />
+				        			<i class="desc"><?php echo esc_html__( 'Check this if you would like to disable storing geolocation data of the users.', 'entries-for-wpforms' );?></i>
+				        		</td>
+				        </tr>
+
+				        <?php do_action( 'internet_connection_status_advanced' );?>
+			            <?php wp_nonce_field( 'internet_connection_status', 'internet_connection_status_nonce' );?>
+
+				    </table>
+
+				    <?php submit_button(); ?>
+
+				</form>
+			    <?php
+		return;
+	}
+
 	?>
-		<h2 class="wp-heading-inline"><?php esc_html_e( 'Internet Connection Status Settings', 'internet-connection-status' ); ?></h2>
 		<form method="post">
 			<table class="form-table">
 					<tr valign="top">
@@ -78,7 +116,7 @@ function ics_settings_page() {
 						   </select>
 						</td>
 					</tr>
-					<?php do_action( 'internet_connection_status' ); ?>
+					<?php do_action( 'internet_connection_status_general' ); ?>
 					<?php wp_nonce_field( 'internet_connection_status', 'internet_connection_status_nonce' ); ?>
 
 			</table>

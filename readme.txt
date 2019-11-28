@@ -2,7 +2,7 @@
 Contributors: sanzeeb3
 Tags: offline, no-internet, offline-js
 Requires at least: 4.0
-Tested up to: 5.2.3
+Tested up to: 5.3.0
 Requires PHP: 5.3
 Stable tag: 1.1.0
 License: GPLv3
@@ -19,9 +19,7 @@ Install and activate the plugin. That's it. Or if you'd like to customize few th
 
 == Frequently Asked Questions ==
 
-= Can I change language, theme, location? =
-
-Not Yet. Coming soon.
+No questions so far.
 
 == Screenshots ==
 
