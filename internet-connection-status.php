@@ -209,10 +209,10 @@ function ics_save_settings() {
 			   exit;
 		} else {
 
-			$language           = isset( $_POST['language'] ) ? sanitize_text_field( $_POST['language'] ) : 'english';
 			$options            = get_option( 'internet_connection_status', array() );
 			$theme              = isset( $options['theme'] ) ? $options['theme'] : 'default';
 			$language           = isset( $options['language'] ) ? $options['language'] : 'english';
+
 			$check_on_load      = isset( $options['check_on_load'] ) ? $options['check_on_load'] : '0';
 			$intercept_requests = isset( $options['intercept_requests'] ) ? $options['intercept_requests'] : '1';
 			$initial_delay      = isset( $options['initial_delay'] ) ? $options['initial_delay'] : '3';
@@ -220,20 +220,38 @@ function ics_save_settings() {
 			$requests           = isset( $options['requests'] ) ? $options['requests'] : '1';
 			$game               = isset( $options['game'] ) ? $options['game'] : '0';
 
-			update_option(
-				'internet_connection_status',
-				array(
-					'theme'              => isset( $_POST['theme'] ) ? sanitize_text_field( $_POST['theme'] ) : $theme,
-					'language'           => isset( $_POST['language'] ) ? sanitize_text_field( $_POST['language'] ) : $language,
-					'check_on_load'      => isset( $_POST['check_on_load'] ) ? sanitize_text_field( $_POST['check_on_load'] ) : $check_on_load,
-					'intercept_requests' => isset( $_POST['intercept_requests'] ) ? sanitize_text_field( $_POST['intercept_requests'] ) : $intercept_requests,
-					'initial_delay'      => isset( $_POST['initial_delay'] ) ? sanitize_text_field( $_POST['initial_delay'] ) : $initial_delay,
-					'delay'              => isset( $_POST['delay'] ) ? sanitize_text_field( $_POST['delay'] ) : $delay,
-					'requests'           => isset( $_POST['requests'] ) ? sanitize_text_field( $_POST['requests'] ) : $requests,
-					'game'               => isset( $_POST['game'] ) ? sanitize_text_field( $_POST['game'] ) : $game,
-				)
-			);
 
+
+			if ( isset( $_GET['section'] ) && 'advanced' === $_GET['section'] ) {
+
+				update_option(
+					'internet_connection_status',
+					array(
+						'theme'              => $theme,
+						'language'           => $language,
+						'check_on_load'      => isset( $_POST['check_on_load'] ) ? sanitize_text_field( $_POST['check_on_load'] ) : '0',
+						'intercept_requests' => isset( $_POST['intercept_requests'] ) ? sanitize_text_field( $_POST['intercept_requests'] ) : '0',
+						'initial_delay'      => isset( $_POST['initial_delay'] ) ? sanitize_text_field( $_POST['initial_delay'] ) : '3',
+						'delay'              => isset( $_POST['delay'] ) ? sanitize_text_field( $_POST['delay'] ) : '10',
+						'requests'           => isset( $_POST['requests'] ) ? sanitize_text_field( $_POST['requests'] ) : '0',
+						'game'               => isset( $_POST['game'] ) ? sanitize_text_field( $_POST['game'] ) : '0',
+					)
+				);
+			} else {
+				update_option(
+					'internet_connection_status',
+					array(
+						'theme'              => isset( $_POST['theme'] ) ? sanitize_text_field( $_POST['theme'] ) : 'default',
+						'language'           => isset( $_POST['language'] ) ? sanitize_text_field( $_POST['language'] ) : 'english',
+						'check_on_load'      => $check_on_load,
+						'intercept_requests' => $intercept_requests,
+						'initial_delay'      => $initial_delay,
+						'delay'              => $delay,
+						'requests'           => $requests,
+						'game'               => $game,
+					)
+				);
+			}
 		}
 	}
 }
