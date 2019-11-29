@@ -33,9 +33,13 @@ No questions so far.
 == Screenshots ==
 
 1. Plugin In Action
-
+2. General Settings.
+3. Advanced Settings.
 
 == Changelog == 
 
-= 1.0.0 - 10/24/2019 =
+= 1.1.0 - xx/xx/2019 =
+* Initial Release
+
+= 1.0.0 - 11/24/2019 =
 * Initial Release
