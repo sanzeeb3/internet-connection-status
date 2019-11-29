@@ -46,8 +46,8 @@ function ics_enqueue_assets() {
 		ICS_VERSION,
 		true
 	);
-	wp_enqueue_style( 'offline-language', plugins_url( 'assets/css/offline-language-' . $language . '.min.css', __FILE__ ), array(), ICS_VERSION, $media = 'all' );
-	wp_enqueue_style( 'offline-theme', plugins_url( 'assets/css/offline-theme-' . $theme . '.css', __FILE__ ), array(), ICS_VERSION, $media = 'all' );
+	wp_enqueue_style( 'offline-language', plugins_url( 'assets/css/language/offline-language-' . $language . '.min.css', __FILE__ ), array(), ICS_VERSION, $media = 'all' );
+	wp_enqueue_style( 'offline-theme', plugins_url( 'assets/css/theme/offline-theme-' . $theme . '.css', __FILE__ ), array(), ICS_VERSION, $media = 'all' );
 
 	if ( ! empty( $game ) ) {
 		wp_enqueue_script( 'offline-js-game', plugins_url( 'assets/js/snake.js', __FILE__ ), array(), ICS_VERSION, true );
@@ -109,7 +109,7 @@ function ics_settings_page() {
 
 					<table class="form-table">
 						<tr valign="top">
-							<th scope="row"><?php echo esc_html__( 'Check On load', 'internet-connection-status' ); ?></th>
+							<th scope="row"><?php echo esc_html__( 'Check on load', 'internet-connection-status' ); ?></th>
 								<td><input type="checkbox" value="1" name="check_on_load" <?php checked( '1', $check_on_load ); ?> />
 									<i class="desc"><?php echo esc_html__( 'Check the connection status immediately on page load.', 'internet-connection-status' ); ?></i>
 								</td>
