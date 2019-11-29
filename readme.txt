@@ -38,8 +38,9 @@ No questions so far.
 
 == Changelog == 
 
-= 1.1.0 - xx/xx/2019 =
-* Initial Release
+= 1.1.0 - 11/29/2019 =
+* Added - Additional language and theme
+* Added - Settings
 
 = 1.0.0 - 11/24/2019 =
 * Initial Release

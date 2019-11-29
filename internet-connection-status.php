@@ -212,7 +212,6 @@ function ics_save_settings() {
 			$options            = get_option( 'internet_connection_status', array() );
 			$theme              = isset( $options['theme'] ) ? $options['theme'] : 'default';
 			$language           = isset( $options['language'] ) ? $options['language'] : 'english';
-
 			$check_on_load      = isset( $options['check_on_load'] ) ? $options['check_on_load'] : '0';
 			$intercept_requests = isset( $options['intercept_requests'] ) ? $options['intercept_requests'] : '1';
 			$initial_delay      = isset( $options['initial_delay'] ) ? $options['initial_delay'] : '3';
