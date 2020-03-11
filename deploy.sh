@@ -2,7 +2,6 @@
  
 # main config
 CURRENTDIR=`pwd`
-CURRENTVERSION=`cat version.txt`
 PLUGINSLUG="internet-connection-status"
 MAINFILE="internet-connection-status.php" # this should be the name of your main php file in the wordpress plugin
 
@@ -57,8 +56,3 @@ echo "Creating new SVN tag"
 cd $SVNPATH
 svn copy trunk/ tags/$NEWVERSION1
 svn commit --username=$SVNUSER -m "Updating tag to $NEWVERSION1"
-
-# Update the version number
-echo "Updating version number for future executions"
-cd $CURRENTDIR
-echo $NEWVERSION1 > version.txt
