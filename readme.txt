@@ -38,6 +38,9 @@ No questions so far.
 
 == Changelog == 
 
+= 1.1.1 - 3/11/2020 =
+* Deploy script tests only
+
 = 1.1.0 - 11/29/2019 =
 * Added - Additional language and theme
 * Added - Settings
