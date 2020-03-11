@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Internet Connection Status
  * Description: Automatically alert your users when they've lost internet connectivity
- * Version: 1.1.0
+ * Version: 1.1.1
  * Author: Sanjeev Aryal
  * Author URI: http://www.sanjeebaryal.com.np
  * Text Domain: internet-connection-status
@@ -18,7 +18,7 @@
 
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
-const ICS_VERSION = '1.1.0';
+const ICS_VERSION = '1.1.1';
 
 /**
  * Enqueue necessary scripts.

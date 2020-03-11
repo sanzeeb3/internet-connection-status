@@ -4,7 +4,7 @@ Tags: offline, no-internet, offline-js
 Requires at least: 4.0
 Tested up to: 5.3.0
 Requires PHP: 5.3
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
