@@ -2,6 +2,7 @@
  
 # main config
 CURRENTDIR=`pwd`
+CURRENTVERSION=`cat version.txt`
 PLUGINSLUG="internet-connection-status"
 MAINFILE="internet-connection-status.php" # this should be the name of your main php file in the wordpress plugin
 
@@ -26,6 +27,7 @@ NEWVERSION1=`grep "^Stable tag" $GITPATH/readme.txt | awk '{ print $NF}'`
 echo $NEWVERSION1;
 NEWVERSION2=`grep "^Version" $GITPATH/$MAINFILE | awk '{ print $NF}'`
 echo $NEWVERSION2;
+
 if [ "$NEWVERSION1" != "$NEWVERSION2" ]; then echo "Versions don't match. Exiting...."; fi
 
 echo "Versions match in readme.txt and PHP file. Let's proceed..."
