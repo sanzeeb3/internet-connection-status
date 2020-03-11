@@ -10,7 +10,7 @@ GITPATH="$CURRENTDIR" # this should be the path to your git repository (trailing
 
 # svn config
 SVNURL="http://plugins.svn.wordpress.org/internet-connection-status" # Remote SVN repo on wordpress.org, with no trailing slash
-SVNPATH="/tmp/$PLUGINSLUG" # path to your checked out SVN repo. Trailing slash is required and don't add trunk.
+SVNPATH="tmp/$PLUGINSLUG" # path to your checked out SVN repo. Trailing slash is required and don't add trunk.
 SVNUSER="sanzeeb3" # your svn username
 
 # Let's begin...
@@ -26,7 +26,7 @@ NEWVERSION1=`grep "^Stable tag" $GITPATH/readme.txt | awk '{ print $NF}'`
 echo $NEWVERSION1;
 NEWVERSION2=`grep "^Version" $GITPATH/$MAINFILE | awk '{ print $NF}'`
 echo $NEWVERSION2;
-if [ "$NEWVERSION1" != "$NEWVERSION2" ]; then echo "Versions don't match. Exiting...."; exit 1; fi
+if [ "$NEWVERSION1" != "$NEWVERSION2" ]; then echo "Versions don't match. Exiting...."; fi
 
 echo "Versions match in readme.txt and PHP file. Let's proceed..."
 
