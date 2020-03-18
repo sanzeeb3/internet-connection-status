@@ -1,4 +1,4 @@
-=== Internet Connection Status ===
+=== Internet Connection Alert! ===
 Contributors: sanzeeb3
 Tags: offline, no-internet, offline-js
 Requires at least: 4.0
