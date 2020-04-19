@@ -186,6 +186,7 @@ function ics_settings_page() {
 								   <option value="spanish" <?php selected( $language, 'spanish' ); ?> ><?php echo esc_html__( 'Spanish', 'internet-connection-status' ); ?> </option>
 								   <option value="french" <?php selected( $language, 'french' ); ?> ><?php echo esc_html__( 'French', 'internet-connection-status' ); ?> </option>
 								   <option value="italian" <?php selected( $language, 'italian' ); ?> ><?php echo esc_html__( 'Italian', 'internet-connection-status' ); ?> </option>
+								   <option value="german" <?php selected( $language, 'german' ); ?> ><?php echo esc_html__( 'German', 'internet-connection-status' ); ?> </option>
 						   </select>
 						</td>
 					</tr>

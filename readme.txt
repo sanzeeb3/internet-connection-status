@@ -1,6 +1,6 @@
 === Internet Connection Alert! ===
 Contributors: sanzeeb3
-Tags: offline, no-internet, offline-js
+Tags: offline, no-internet, altert, internet connection
 Requires at least: 4.0
 Tested up to: 5.3.0
 Requires PHP: 5.3
@@ -12,7 +12,7 @@ Aautomatically alert your users when they've lost internet connectivity
 
 == Description ==
 
-Automatically alert your users when they've lost internet connectivity. The plugin enqueues [Offline.js](https://github.com/HubSpot/offline) by itself. It captures AJAX requests which were made while the connection was down, and remakes them when it's back up, so your app reacts perfectly.
+Automatically alert your users when they've lost internet connectivity. The plugin uses [Offline.js](https://github.com/HubSpot/offline) and captures AJAX requests which were made while the connection was down, and remakes them when it's back up, so your app reacts perfectly.
 
 Install and activate the plugin. That's it. Or if you'd like to customize few things, go to Settings > Internet Connection Status.
 
@@ -36,10 +36,11 @@ No questions so far.
 2. General Settings.
 3. Advanced Settings.
 
-== Changelog == 
+== Changelog ==
 
 = 1.1.1 - 3/11/2020 =
-* Deploy script tests only
+* Added - German language
+* Test - Deploy script
 
 = 1.1.0 - 11/29/2019 =
 * Added - Additional language and theme
