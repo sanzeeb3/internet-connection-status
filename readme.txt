@@ -2,7 +2,7 @@
 Contributors: sanzeeb3
 Tags: offline, no-internet, altert, internet connection
 Requires at least: 4.0
-Tested up to: 5.3.0
+Tested up to: 5.4.0
 Requires PHP: 5.3
 Stable tag: 1.2.0
 License: GPLv3
