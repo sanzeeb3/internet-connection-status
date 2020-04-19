@@ -31,28 +31,51 @@ if [ "$NEWVERSION1" != "$NEWVERSION2" ]; then echo "Versions don't match. Exitin
 
 echo "Versions match in readme.txt and PHP file. Let's proceed..."
 
-# change into the git dir and get a commit message
-cd $GITPATH
-echo -e "Enter a commit message describing the changes made: \c"
-read COMMITMSG
-git commit -a -m "$COMMITMSG"
+if git show-ref --tags --quiet --verify -- "refs/tags/$NEWVERSION1"
+	then 
+		echo "Version $NEWVERSION1 already exists as git tag. Exiting...."; 
+		COMMITMSG="Committing $NEWVERSION1"
+	else
+		echo "Git version does not exist. Let's proceed..."
+		cd $GITPATH
+    echo -e "Enter a commit message for this new version: \c"
+    read COMMITMSG
+    git commit -am "$COMMITMSG"
 
-# push to origin
-echo "Push latest commit to origin"
+    echo "Tagging new version in git"
+    git tag -a "$NEWVERSION1" -m "Tagging version $NEWVERSION1"
+fi
+
+echo "Pushing latest commit to origin, with tags"
 git push origin master
+git push origin master --tags
 
-# Export git contents to svn directory
 echo 
+echo "Creating local copy of SVN repo ..."
+svn co $SVNURL $SVNPATH
+
 echo "Exporting the HEAD of master from git to the trunk of SVN"
 git checkout-index -a -f --prefix=$SVNPATH/trunk/
 
-# Change to SVN dir and commit changes
+echo "Ignoring github specific files and deployment script"
+svn propset svn:ignore "deploy.sh
+README.md
+.git
+.gitignore" "$SVNPATH/trunk/"
+
 echo "Changing directory to SVN and committing to trunk"
-cd $SVNPATH/trunk
+cd $SVNPATH/trunk/
+# Add all new files that are not set to be ignored
+svn status | grep -v "^.[ \t]*\..*" | grep "^?" | awk '{print $2}' | xargs svn add
 svn commit --username=$SVNUSER -m "$COMMITMSG"
 
-# Create a new tag and commit it :)
-echo "Creating new SVN tag"
+echo "Creating new SVN tag & committing it"
 cd $SVNPATH
-svn copy trunk/ tags/$NEWVERSION1
-svn commit --username=$SVNUSER -m "Updating tag to $NEWVERSION1"
+svn copy trunk/ tags/$NEWVERSION1/
+cd $SVNPATH/tags/$NEWVERSION1
+svn commit --username=$SVNUSER -m "Tagging version $NEWVERSION1"
+
+echo "Removing temporary directory $SVNPATH"
+rm -fr $SVNPATH/
+
+echo "*** FIN ***"
