@@ -4,7 +4,7 @@ Tags: offline, no-internet, altert, internet connection
 Requires at least: 4.0
 Tested up to: 5.4.0
 Requires PHP: 5.3
-Stable tag: 1.2.0
+Stable tag: 1.2.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -37,6 +37,9 @@ No questions so far.
 3. Advanced Settings.
 
 == Changelog ==
+
+ = 1.2.1 - 6/14/2020 =
+ * Improvements
 
 = 1.2.0 - 4/19/2020 =
 * Added - German language
