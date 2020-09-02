@@ -1,8 +1,8 @@
 === Internet Connection Alert! ===
 Contributors: sanzeeb3
-Tags: offline, no-internet, altert, internet connection
+Tags: offline, no-internet, alert, internet connection
 Requires at least: 4.0
-Tested up to: 5.4.0
+Tested up to: 5.5.1
 Requires PHP: 5.3
 Stable tag: 1.2.1
 License: GPLv3
