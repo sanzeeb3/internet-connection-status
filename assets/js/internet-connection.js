@@ -23,5 +23,3 @@ Offline.options = {
  // Should we show a snake game while the connection is down to keep the user entertained?
   game: '1' === ics_params.game ? true : false,
 }
-
-console.log( Offline.options );
