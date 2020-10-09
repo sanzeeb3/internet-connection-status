@@ -1,6 +1,3 @@
-Welcome to the Internet Connection Status repository on GitHub
-
-## Important Note
 Bringing the ever powerful [Offline.js](https://github.hubspot.com/offline/docs) into WordPress. :boom:
 
 ## Documentation
