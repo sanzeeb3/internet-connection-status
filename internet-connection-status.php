@@ -6,7 +6,7 @@
  * Author: Sanjeev Aryal
  * Author URI: http://www.sanjeebaryal.com.np
  * Text Domain: internet-connection-status
-*/
+ */
 
 /**
  * @see        https://github.com/HubSpot/offline
@@ -71,7 +71,7 @@ function ics_enqueue_assets() {
  * Enqueue admin assets.
  *
  * All assets are loaded on the plugin's page only.
- * 
+ *
  * @since 1.3.0
  */
 function ics_enqueue_admin_assets() {
