@@ -23,6 +23,19 @@ defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 const ICS_VERSION = '1.3.0';
 
 /**
+ * Load plugin textdomain.
+ *
+ * @since  1.4.0
+ *
+ * @return void.
+ */
+function ics_laod_textdomain() {
+	load_plugin_textdomain( 'internet-connection-status', false,  '/languages' );
+}
+
+add_action( 'init', 'ics_load_textdomain');
+
+/**
  * Enqueue necessary scripts.
  *
  * @since  1.0.0
