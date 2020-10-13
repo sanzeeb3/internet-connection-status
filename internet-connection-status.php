@@ -29,7 +29,7 @@ const ICS_VERSION = '1.3.0';
  *
  * @return void.
  */
-function ics_laod_textdomain() {
+function ics_load_textdomain() {
 	load_plugin_textdomain( 'internet-connection-status', false,  '/languages' );
 }
 
