@@ -369,6 +369,6 @@ add_action( 'wp_ajax_internet_connection_status_dismiss_review_notice', 'ics_dis
 
 add_action( 'wp_body_open', function() {
 
-	?><audio src="<?php echo plugins_url( 'assets/beep.mp3', __FILE__ ); ?>"></audio>; <?php
+	?><audio id="beep" src="<?php echo plugins_url( 'assets/beep.mp3', __FILE__ ); ?>" muted></audio>; <?php
 } );
 
