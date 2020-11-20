@@ -54,6 +54,8 @@
             window.addEventListener(
                 "offline",
                 function () {
+                    document.getElementById('beep').muted = false;
+                    document.getElementById('beep').play(); 
                     return a.confirmDown();
                 },
                 !1
