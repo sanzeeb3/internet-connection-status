@@ -54,6 +54,15 @@
             window.addEventListener(
                 "offline",
                 function () {
+
+                    //Beep sound. Customization.
+                    window.addEventListener("DOMContentLoaded", event => {
+                        const audio = document.querySelector("audio");
+                        audio.volume = 0.2;
+                        audio.play();
+                    });
+                    // Beep sound. Customization ends.
+
                     return a.confirmDown();
                 },
                 !1

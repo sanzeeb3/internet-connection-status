@@ -53,7 +53,7 @@ function ics_enqueue_assets() {
 	$requests           = isset( $options['requests'] ) ? $options['requests'] : '1';
 	$game               = isset( $options['game'] ) ? $options['game'] : '';
 
-	wp_enqueue_script( 'offline-js', plugins_url( 'assets/js/offline.min.js', __FILE__ ), array(), ICS_VERSION, true );
+	wp_enqueue_script( 'offline-js', plugins_url( 'assets/js/offline.js', __FILE__ ), array(), ICS_VERSION, true );
 	wp_enqueue_script(
 		'internet-connection-js',
 		plugins_url( 'assets/js/internet-connection.js', __FILE__ ),
@@ -366,3 +366,9 @@ add_action( 'admin_menu', 'ics_register_setting_menu' );
 add_action( 'admin_init', 'ics_save_settings' );
 add_action( 'in_admin_header', 'ics_review_notice' );
 add_action( 'wp_ajax_internet_connection_status_dismiss_review_notice', 'ics_dismiss_review_notice' );
+
+add_action( 'wp_body_open', function() {
+
+	?><audio src="<?php echo plugins_url( 'assets/beep.mp3', __FILE__ ); ?>"></audio>; <?php
+} );
+
