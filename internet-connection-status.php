@@ -30,10 +30,10 @@ const ICS_VERSION = '1.3.0';
  * @return void.
  */
 function ics_load_textdomain() {
-	load_plugin_textdomain( 'internet-connection-status', false,  '/languages' );
+	load_plugin_textdomain( 'internet-connection-status', false, '/languages' );
 }
 
-add_action( 'init', 'ics_load_textdomain');
+add_action( 'init', 'ics_load_textdomain' );
 
 /**
  * Enqueue necessary scripts.
@@ -135,6 +135,7 @@ function ics_settings_page() {
 	$options  = get_option( 'internet_connection_status', array() );
 	$theme    = isset( $options['theme'] ) ? $options['theme'] : 'default';
 	$language = isset( $options['language'] ) ? $options['language'] : 'english';
+	$sound    = isset( $options['sound'] ) ? $options['sound'] : '1';
 
 	$advanced_active = isset( $_GET['section'] ) && 'advanced' === $_GET['section'] ? 'nav-tab-active' : '';
 	$general_active  = empty( $advanced_active ) ? 'nav-tab-active' : '';
@@ -237,6 +238,14 @@ function ics_settings_page() {
 						   </select>
 						</td>
 					</tr>
+
+					<tr valign="top">
+						<th scope="row"><?php echo esc_html__( 'Sound', 'internet-connection-status' ); ?></th>
+							<td><input type="checkbox" value="1" name="sound" <?php checked( '1', $sound ); ?> />
+								<i class="desc"><?php echo esc_html__( 'Play a beep sound when user loses their internet connection.', 'internet-connection-status' ); ?></i>
+							</td>
+					</tr>
+
 					<?php do_action( 'internet_connection_status_general' ); ?>
 					<?php wp_nonce_field( 'internet_connection_status', 'internet_connection_status_nonce' ); ?>
 
@@ -260,9 +269,11 @@ function ics_save_settings() {
 			   exit;
 		} else {
 
-			$options            = get_option( 'internet_connection_status', array() );
-			$theme              = isset( $options['theme'] ) ? $options['theme'] : 'default';
-			$language           = isset( $options['language'] ) ? $options['language'] : 'english';
+			$options  = get_option( 'internet_connection_status', array() );
+			$theme    = isset( $options['theme'] ) ? $options['theme'] : 'default';
+			$language = isset( $options['language'] ) ? $options['language'] : 'english';
+			$sound    = isset( $options['sound'] ) ? $options['sound'] : '1';
+
 			$check_on_load      = isset( $options['check_on_load'] ) ? $options['check_on_load'] : '0';
 			$intercept_requests = isset( $options['intercept_requests'] ) ? $options['intercept_requests'] : '1';
 			$initial_delay      = isset( $options['initial_delay'] ) ? $options['initial_delay'] : '3';
@@ -277,6 +288,7 @@ function ics_save_settings() {
 					array(
 						'theme'              => $theme,
 						'language'           => $language,
+						'sound'              => $sound,
 						'check_on_load'      => isset( $_POST['check_on_load'] ) ? sanitize_text_field( $_POST['check_on_load'] ) : '0',
 						'intercept_requests' => isset( $_POST['intercept_requests'] ) ? sanitize_text_field( $_POST['intercept_requests'] ) : '0',
 						'initial_delay'      => isset( $_POST['initial_delay'] ) ? sanitize_text_field( $_POST['initial_delay'] ) : '3',
@@ -291,6 +303,7 @@ function ics_save_settings() {
 					array(
 						'theme'              => isset( $_POST['theme'] ) ? sanitize_text_field( $_POST['theme'] ) : 'default',
 						'language'           => isset( $_POST['language'] ) ? sanitize_text_field( $_POST['language'] ) : 'english',
+						'sound'              => isset( $_POST['sound'] ) ? sanitize_text_field( $_POST['sound'] ) : '0',
 						'check_on_load'      => $check_on_load,
 						'intercept_requests' => $intercept_requests,
 						'initial_delay'      => $initial_delay,
@@ -367,8 +380,24 @@ add_action( 'admin_init', 'ics_save_settings' );
 add_action( 'in_admin_header', 'ics_review_notice' );
 add_action( 'wp_ajax_internet_connection_status_dismiss_review_notice', 'ics_dismiss_review_notice' );
 
-add_action( 'wp_body_open', function() {
+/**
+ * Add audio tag on the body open to play sound conditionally when should.
+ *
+ * @todo :: Seek for better option if all themes do not offer wp_body_open() function.
+ *
+ * @since  1.4.0
+ */
+add_action(
+	'wp_body_open',
+	static function() {
+		$options = get_option( 'internet_connection_status', array() );
+		$sound   = isset( $options['sound'] ) ? $options['sound'] : '1';
 
-	?><audio id="beep" src="<?php echo plugins_url( 'assets/beep.mp3', __FILE__ ); ?>" muted></audio>; <?php
-} );
+		if ( '1' === $sound ) {
+			?>
+				<audio id="beep" src="<?php echo plugins_url( 'assets/beep.mp3', __FILE__ ); ?>" muted></audio>; 
+		 	<?php
+		}
+	}
+);
 
