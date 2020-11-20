@@ -2,9 +2,9 @@
 Contributors: sanzeeb3
 Tags: offline, no-internet, alert, internet connection
 Requires at least: 4.0
-Tested up to: 5.5.1
+Tested up to: 5.5.3
 Requires PHP: 5.3
-Stable tag: 1.3.0
+Stable tag: 1.4.0
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -12,7 +12,7 @@ Aautomatically alert your users when they've lost internet connectivity
 
 == Description ==
 
-Automatically alert your users when they've lost internet connectivity. The plugin uses [Offline.js](https://github.com/HubSpot/offline) which captures AJAX requests which were made while the connection was down, and remakes them when it's back up, so your app reacts perfectly.
+Automatically alert your users when they've lost internet connectivity. The plugin uses customized [Offline.js](https://github.com/HubSpot/offline) which captures AJAX requests which were made while the connection was down, and remakes them when it's back up, so your app reacts perfectly.
 
 ### Install and activate the plugin. That's IT.
 
@@ -20,6 +20,7 @@ If you'd like to customize few things, go to Settings > Internet Connection Stat
 
 Improve the experience of your site when your users lose connection.
 
+* Beep sound when users loses their internet connectivity
 * Monitors ajax requests looking for failure
 * Confirms the connection status by requesting an image or fake resource
 * Automatically grabs ajax requests made while the connection is down and remakes them after the connection is restored.
@@ -38,6 +39,9 @@ No questions so far.
 3. Advanced Settings.
 
 == Changelog ==
+
+= 1.4.0 - 11/20/2020 =
+* Feature - Beep sound on lost internet connection.
 
 = 1.3.0 - 09/05/2020 =
 * Refactor.
