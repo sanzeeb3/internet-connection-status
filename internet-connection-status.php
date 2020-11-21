@@ -395,7 +395,7 @@ add_action(
 
 		if ( '1' === $sound ) {
 			?>
-				<audio id="beep" src="<?php echo plugins_url( 'assets/beep.mp3', __FILE__ ); ?>" muted></audio>; 
+				<audio id="beep" src="<?php echo plugins_url( 'assets/beep.mp3', __FILE__ ); ?>" muted></audio>
 		 	<?php
 		}
 	}
