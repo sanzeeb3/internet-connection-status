@@ -4,7 +4,7 @@ Tags: offline, no-internet, alert, internet connection
 Requires at least: 4.0
 Tested up to: 5.5.3
 Requires PHP: 5.3
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -39,6 +39,10 @@ No questions so far.
 3. Advanced Settings.
 
 == Changelog ==
+
+= 1.4.2 - 1/26/2021 =
+* Change - Turn beep sound off by default.
+* Fix - Extra semi-column. 
 
 = 1.4.1 - 11/20/2020 =
 * Fix - Check if id exists before use.

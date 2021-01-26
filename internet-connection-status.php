@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Internet Connection Status
  * Description: Automatically alert your users when they've lost internet connectivity
- * Version: 1.4.1
+ * Version: 1.4.2
  * Author: Sanjeev Aryal
  * Author URI: http://www.sanjeebaryal.com.np
  * Text Domain: internet-connection-status
@@ -20,7 +20,7 @@
 
 defined( 'ABSPATH' ) || die( 'No script kiddies please!' );
 
-const ICS_VERSION = '1.4.1';
+const ICS_VERSION = '1.4.2';
 
 /**
  * Load plugin textdomain.
@@ -135,7 +135,7 @@ function ics_settings_page() {
 	$options  = get_option( 'internet_connection_status', array() );
 	$theme    = isset( $options['theme'] ) ? $options['theme'] : 'default';
 	$language = isset( $options['language'] ) ? $options['language'] : 'english';
-	$sound    = isset( $options['sound'] ) ? $options['sound'] : '1';
+	$sound    = isset( $options['sound'] ) ? $options['sound'] : '';
 
 	$advanced_active = isset( $_GET['section'] ) && 'advanced' === $_GET['section'] ? 'nav-tab-active' : '';
 	$general_active  = empty( $advanced_active ) ? 'nav-tab-active' : '';
@@ -272,7 +272,7 @@ function ics_save_settings() {
 			$options  = get_option( 'internet_connection_status', array() );
 			$theme    = isset( $options['theme'] ) ? $options['theme'] : 'default';
 			$language = isset( $options['language'] ) ? $options['language'] : 'english';
-			$sound    = isset( $options['sound'] ) ? $options['sound'] : '1';
+			$sound    = isset( $options['sound'] ) ? $options['sound'] : '0';
 
 			$check_on_load      = isset( $options['check_on_load'] ) ? $options['check_on_load'] : '0';
 			$intercept_requests = isset( $options['intercept_requests'] ) ? $options['intercept_requests'] : '1';
