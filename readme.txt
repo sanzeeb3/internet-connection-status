@@ -2,9 +2,9 @@
 Contributors: sanzeeb3
 Tags: offline, no-internet, alert, internet connection
 Requires at least: 4.0
-Tested up to: 5.5.3
+Tested up to: 5.7
 Requires PHP: 5.3
-Stable tag: 1.4.2
+Stable tag: 1.4.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -39,6 +39,9 @@ No questions so far.
 3. Advanced Settings.
 
 == Changelog ==
+
+= 1.4.3 - 4/15/2021 =
+* Fix - broken turn beep sound off by default.
 
 = 1.4.2 - 1/26/2021 =
 * Change - Turn beep sound off by default.

@@ -10,8 +10,6 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
 
-global $wpdb;
-
 // Delete all the Internet Connection Status settings.
 delete_option( 'internet_connection_status' );
 
