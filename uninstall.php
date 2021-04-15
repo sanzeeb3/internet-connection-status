@@ -1,6 +1,6 @@
 <?php
 /**
- * Uninstall WP Frontend Delete Account.
+ * Uninstall Internet Connection Alert!
  *
  * @since 1.4.3
  */

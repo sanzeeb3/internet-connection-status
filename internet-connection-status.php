@@ -135,7 +135,7 @@ function ics_settings_page() {
 	$options  = get_option( 'internet_connection_status', array() );
 	$theme    = isset( $options['theme'] ) ? $options['theme'] : 'default';
 	$language = isset( $options['language'] ) ? $options['language'] : 'english';
-	$sound    = isset( $options['sound'] ) ? $options['sound'] : '';
+	$sound    = isset( $options['sound'] ) ? $options['sound'] : '0';
 
 	$advanced_active = isset( $_GET['section'] ) && 'advanced' === $_GET['section'] ? 'nav-tab-active' : '';
 	$general_active  = empty( $advanced_active ) ? 'nav-tab-active' : '';
@@ -391,7 +391,7 @@ add_action(
 	'wp_body_open',
 	static function() {
 		$options = get_option( 'internet_connection_status', array() );
-		$sound   = isset( $options['sound'] ) ? $options['sound'] : '1';
+		$sound   = isset( $options['sound'] ) ? $options['sound'] : '0';
 
 		if ( '1' === $sound ) {
 			?>
