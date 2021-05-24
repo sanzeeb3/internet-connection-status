@@ -80,42 +80,7 @@ function ics_enqueue_assets() {
 	wp_localize_script( 'internet-connection-js', 'ics_params', $data );
 }
 
-/**
- * Enqueue admin assets.
- *
- * All assets are loaded on the plugin's page only.
- *
- * @since 1.3.0
- */
-function ics_enqueue_admin_assets() {
-
-	global $current_screen;
-
-	if ( ! empty( $current_screen->id ) && $current_screen->id !== 'settings_page_internet-connection-status' ) {
-		return;
-	}
-
-	wp_enqueue_style( 'review-notice', plugins_url( 'assets/css/review.css', __FILE__ ), array(), ICS_VERSION, $media = 'all' );
-	wp_enqueue_script(
-		'review-js',
-		plugins_url( 'assets/js/review.js', __FILE__ ),
-		array(),
-		ICS_VERSION,
-		true
-	);
-
-	wp_localize_script(
-		'review-js',
-		'ics_plugins_params',
-		array(
-			'ajax_url'     => admin_url( 'admin-ajax.php' ),
-			'review_nonce' => wp_create_nonce( 'review-notice' ),
-		)
-	);
-}
-
 add_action( 'wp_enqueue_scripts', 'ics_enqueue_assets' );
-add_action( 'admin_enqueue_scripts', 'ics_enqueue_admin_assets' );
 
 /**
  * Add Internet Connection Status Submenu
@@ -317,68 +282,8 @@ function ics_save_settings() {
 	}
 }
 
-/**
- * Outputs the Review notice on admin header.
- *
- * @since 1.3.0
- */
-function ics_review_notice() {
-
-	global $current_screen;
-
-	// Show only to Admins
-	if ( ! current_user_can( 'manage_options' ) ) {
-		return;
-	}
-
-	$notice_dismissed = get_option( 'ics_review_notice_dismissed', 'no' );
-
-	if ( 'yes' == $notice_dismissed ) {
-		return;
-	}
-
-	if ( ! empty( $current_screen->id ) && $current_screen->id !== 'settings_page_internet-connection-status' ) {
-		return;
-	}
-
-	?>
-		<div id="internet-connection-status-review-notice" class="notice notice-info internet-connection-status-review-notice">
-			<div class="internet-connection-status-review-thumbnail">
-				<img src="<?php echo plugins_url( 'assets/logo.png', __FILE__ ); ?>" alt="">
-			</div>
-			<div class="internet-connection-status-review-text">
-
-					<h3><?php _e( 'Whoopee! 😀', 'internet-connection-status' ); ?></h3>
-					<p><?php _e( 'Internet Connection Alert! is already looking awesome in your site. Would you do me some favour and leave a <a href="https://wordpress.org/support/plugin/internet-connection-status/reviews/?filter=5#new-post" target="_blank">&#9733;&#9733;&#9733;&#9733;&#9733;</a> review on <a href="https://wordpress.org/support/plugin/internet-connection-status/reviews/?filter=5#new-post" target="_blank"><strong>WordPress.org</strong></a>? to help us spread the word and boost my motivation.', 'internet-connection-status' ); ?></p>
-
-				<ul class="internet-connection-status-review-ul">
-					<li><a class="button button-primary" href="https://wordpress.org/support/plugin/internet-connection-status/reviews/?filter=5#new-post" target="_blank"><span class="dashicons dashicons-external"></span><?php _e( 'Sure, I\'d love to!', 'internet-connection-status' ); ?></a></li>
-					<li><a href="#" class="button button-secondary notice-dismiss"><span  class="dashicons dashicons-smiley"></span><?php _e( 'I already did!', 'internet-connection-status' ); ?></a></li>
-					<li><a href="#" class="button button-link notice-dismiss"><span class="dashicons dashicons-dismiss"></span><?php _e( 'No, I won\'t.', 'internet-connection-status' ); ?></a></li>
-				 </ul>
-			</div>
-		</div>
-	<?php
-}
-
-/**
- * Dismiss the reveiw notice on dissmiss click
- *
- * @since 1.3.0
- */
-function ics_dismiss_review_notice() {
-
-	check_admin_referer( 'review-notice', 'security' );
-
-	if ( ! empty( $_POST['dismissed'] ) ) {
-		update_option( 'ics_review_notice_dismissed', 'yes' );
-	}
-}
-
 add_action( 'admin_menu', 'ics_register_setting_menu' );
 add_action( 'admin_init', 'ics_save_settings' );
-add_action( 'in_admin_header', 'ics_review_notice' );
-add_action( 'wp_ajax_internet_connection_status_dismiss_review_notice', 'ics_dismiss_review_notice' );
 
 /**
  * Add audio tag on the body open to play sound conditionally when should.
