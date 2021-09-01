@@ -1,32 +1,26 @@
 === Internet Connection Alert! ===
 Contributors: sanzeeb3
-Tags: offline, no-internet, alert, internet connection
+Tags: pwa, offline, alert
 Requires at least: 4.0
-Tested up to: 5.7
+Tested up to: 5.8
 Requires PHP: 5.3
 Stable tag: 1.4.3
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
-Aautomatically alert your users when they've lost internet connectivity
+Aautomatically alert your visitors when they've lost internet connectivity
 
 == Description ==
 
-Automatically alert your users when they've lost internet connectivity. The plugin uses customized [Offline.js](https://github.com/HubSpot/offline) which captures AJAX requests which were made while the connection was down, and remakes them when it's back up, so your app reacts perfectly.
+Automatically alert your visitors when they've lost internet connectivity. The plugin uses customized [Offline.js](https://github.com/HubSpot/offline) which captures AJAX requests which were made while the connection was down.
 
-### Install and activate the plugin. That's IT.
+Simple yet powerful PWA App. Improve your visitors abandonment problem.
 
-If you'd like to customize few things, go to Settings > Internet Connection Status.
+Install and activate the plugin. That's it. Absolutely no configuration required. The visitors will be notified about their lost internet connection.
 
-Improve the experience of your site when your users lose connection.
+If you'd like to customize few things, go to **Settings > Internet Connection Status**.
 
-* Beep sound when users loses their internet connectivity
-* Monitors ajax requests looking for failure
-* Confirms the connection status by requesting an image or fake resource
-* Automatically grabs ajax requests made while the connection is down and remakes them after the connection is restored.
-* Simple UI with beautiful themes
-
-Keep the users entertained and engaged with a snake game while the connection is down. Improve your visitors abandonment problem.
+[Demo Site](https://sanjeebaryal.com.np/alert-visitors-about-their-lost-internet-connection/) - Visit the site and turn off your internet.
 
 == Frequently Asked Questions ==
 
@@ -35,8 +29,6 @@ No questions so far.
 == Screenshots ==
 
 1. Plugin In Action
-2. General Settings.
-3. Advanced Settings.
 
 == Changelog ==
 
