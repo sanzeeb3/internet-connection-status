@@ -1,5 +1,5 @@
 === Internet Connection Alert! ===
-Contributors: sanzeeb3
+Contributors: sanzeeb3, neetika02
 Tags: pwa, offline, alert
 Requires at least: 4.0
 Tested up to: 5.8
